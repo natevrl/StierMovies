@@ -17,35 +17,20 @@
       outline: none;
       text-align: center;
     }
-    input[type="submit"] {
-      padding: 1px 10px;
-      width: 220px;
-      border-radius: 0 0 10px 10px;
-      border: none;
-      background: $color-1;
-      color: $white;
-      font-size: 1.5rem;
-      cursor: pointer;
-      z-index: 10;
-      position: relative;
-
-      &:hover {
-        background: $black;
-      }
-    }
   }
   .btn-sort-container {
-    margin: 8px auto;
+    margin: auto;
+    margin-bottom: 10px;
     width: 220px;
     display: flex;
     justify-content: space-around;
     cursor: pointer;
 
     #goodToBad {
-      border-radius: 10px 0 0 10px;
+      border-radius: 0 0 0 10px;
     }
     #badToGood {
-      border-radius: 0 10px 10px 0;
+      border-radius: 0 0 10px 0;
     }
     #goodToBad,
     #badToGood {

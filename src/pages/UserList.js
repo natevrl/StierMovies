@@ -20,7 +20,7 @@ const UserList = () => {
 	return (
 			<div className="user-list-page">
 				<Header/>
-				<h2>Favlist<span>❤️</span></h2>
+				<h2><span>❤️<i className='fas fa-github'></i></span> My Favlist</h2>
 				<div className="result">
 					{listData.map((movie) => <Card key={movie.id} movie={movie}/>)}
 				</div>

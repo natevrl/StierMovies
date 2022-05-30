@@ -1,8 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
+
 
 
 class Card extends Component {
-	
+	constructor () {
+		super();
+		this.state = { color: {color: 'rgb(196, 196, 196)'}};
+	}	
+
 	formatDate(date) {
 		const [yy, mm, dd] = date.split('-');
 		return [dd, mm, yy].join('/');
@@ -38,14 +43,18 @@ class Card extends Component {
 		const movie = this.props.movie;
 		return (
 			<div className="card">
-				<img src={movie.poster_path ? "https://image.tmdb.org/t/p/w500/" + movie.poster_path : "./img/poster.jpg"} alt="movie-poster" />
+				{/* <img src={movie.poster_path ? "https://image.tmdb.org/t/p/w500/" + movie.poster_path : "./img/poster.jpg"} alt="movie-poster" /> */}
 				<h2>{movie.title}</h2>
 				{movie.release_date ? <h5>Release date : {this.formatDate(movie.release_date)}</h5> : <h5>date unavailable</h5>}
 				<h4>{movie.vote_average}/10 <span>⭐</span></h4>
 				{movie.genre_ids? <ul>{this.findGenre(movie.genre_ids, 1)}</ul> : movie.genres ? <ul>{this.findGenre(movie.genres, 0)}</ul> : ""}
 				{movie.overview ? <h3>Synopsis</h3> : ""}
 				<p>{movie.overview}</p>
-				{movie.genre_ids ? <div className="btn" onClick={() => this.handleStorageData(movie.id, 1)}>Add to your favlist</div> : <div className="btn" onClick={() => this.handleStorageData(movie.id, 2)}>Delete form the list</div>}
+				{movie.genre_ids ? <div className="btn" 
+				onClick={() => {
+					this.handleStorageData(movie.id, 1); 
+					this.setState({color: {color: 'red'}})}
+					}><i style={this.state.color} className="fas fa-solid fa-heart"></i></div> : <div className="btn" onClick={() => this.handleStorageData(movie.id, 2)}><i className="fas fa-solid fa-trash"></i>	</div>}
 			</div>
 		);
 	}
