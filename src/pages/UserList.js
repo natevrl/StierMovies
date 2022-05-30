@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
+import Card from '../components/Card'
 
 const UserList = () => {
 
@@ -21,7 +22,7 @@ const UserList = () => {
 				<Header/>
 				<h2>Favlist<span>❤️</span></h2>
 				<div className="result">
-					{/* {listData.map((movie) => <Card key={movie.id} movie=movie)} */}
+					{listData.map((movie) => <Card key={movie.id} movie={movie}/>)}
 				</div>
 			</div>
 	);

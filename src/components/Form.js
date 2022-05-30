@@ -38,7 +38,7 @@ const Form = () => {
               else if (sortNote === "badToGood")
                 return (a.vote_average - b.vote_average)
             })
-          .map(movie => <Card key={movie.id} movie={movie}/>)}
+          .map((movie, i) => <Card key={i} movie={movie}/>)}
         
       </div>
     </div>
