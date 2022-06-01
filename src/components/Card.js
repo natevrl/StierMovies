@@ -1,70 +1,124 @@
-import React, { Component, useState } from 'react';
+import React, { useState, useContext } from "react";
+import Checkbox from "@mui/material/Checkbox";
+import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
+import Favorite from "@mui/icons-material/Favorite";
+import { testContext } from "./Form";
 
+const Card = ({ movie, funcOfParent, parentListData }) => {
+  const [movieContext, setMovieContext] = useContext(testContext);
 
+  function formatDate(date) {
+    const [yy, mm, dd] = date.split("-");
+    return [dd, mm, yy].join("/");
+  }
 
-const Card = ({movie, funcOfParent, parentListData}) => {
+  function findGenre(genres, token) {
+    const new_list = [];
+    const genreDict = {
+      28: "Action ",
+      12: "Adventure ",
+      16: "Animation ",
+      35: "Comedy ",
+      80: "Crime ",
+      99: "Documentary ",
+      18: "Drama ",
+      10751: "Family ",
+      14: "Fantasy ",
+      36: "History ",
+      27: "Horror ",
+      10402: "Music ",
+      9648: "Mystery ",
+      10749: "Romance ",
+      878: "Science Fiction ",
+      10770: "TV Movie ",
+      53: "Thriller ",
+      10752: "War ",
+      37: "Western ",
+    };
+    if (token === 1) {
+      for (let i = 0; i < genres.length; i++)
+        for (let key in genreDict)
+          if (genres[i].toString() === key) new_list.push(genreDict[key]);
+    } else {
+      for (let i = 0; i < genres.length; i++) new_list.push(genres[i].name);
+    }
+    return new_list.map((genre, i) => <li key={i}>{genre}</li>);
+  }
 
+  function handleStorageData(id, token) {
+    let data_list = window.localStorage.movie
+      ? window.localStorage.movie.split(",")
+      : [];
 
-	const [colorIcons, setcolorIcons] = useState({color: 'rgb(196, 196, 196)'});
+    if (!data_list.includes(id.toString()) && token === 1) {
+      // add data to localStorage
+      data_list.push(id);
+      window.localStorage.movie = data_list;
+    } else if (token === 2) {
+      // delete data of localStorage
+      let newDataList = data_list.filter((eachId) => eachId != id);
+      window.localStorage.movie = newDataList;
+      const newArr = parentListData.filter((item) =>
+        newDataList.includes(item.id.toString())
+      );
+      funcOfParent(newArr);
+    }
+  }
 
-	function formatDate(date) {
-		const [yy, mm, dd] = date.split('-');
-		return [dd, mm, yy].join('/');
-	};
-	
-	function findGenre(genres, token) {
-		const new_list = [];
-		const genreDict = { '28': "Action ", '12': "Adventure ", '16': "Animation ", '35': "Comedy ", '80': "Crime ", '99': "Documentary ", '18': "Drama ", '10751': "Family ", '14': "Fantasy ", '36': "History ", '27': "Horror ", '10402': "Music ", '9648': "Mystery ", '10749': "Romance ", '878': "Science Fiction ", '10770': "TV Movie ", '53': "Thriller ", '10752': "War ", '37': "Western "};
-		if (token === 1) {
-			for (let i = 0; i < genres.length; i++)
-				for (let key in genreDict)
-					if (genres[i].toString() === key)
-						new_list.push(genreDict[key]);
-		} else {
-			for (let i = 0; i < genres.length; i++)
-				new_list.push(genres[i].name)
-		}
-		return (new_list.map((genre, i) => <li key={i}>{genre}</li>))
-	};
-	
-	function handleStorageData(id, token) {
-		let data_list = window.localStorage.movie ? window.localStorage.movie.split(',') : [];
+  function setLocalFav() {
+    if (window.localStorage.getItem(movie.id) === "false") return true;
+    else return false;
+  }
 
-		if (!data_list.includes(id.toString()) && token === 1) { // add data to localStorage
-			data_list.push(id);
-			window.localStorage.movie = data_list;
-		} 
-		else if (token === 2) { // delete data of localStorage
-			let newDataList = data_list.filter((eachId) => eachId != id);
-			window.localStorage.movie = newDataList;
-			const newArr = parentListData.filter(item => newDataList.includes(item.id.toString()));
-			funcOfParent(newArr);
-		}
-	};
-	
-	function setupColorIcons() {
-		const storageList = window.localStorage.movie ? window.localStorage.movie.split(',') : [];
-		storageList.map((id) => id.toString() == movie.id ? setcolorIcons({color: 'red'}) : {color: 'red'})
-	}
-
-	return (
-		<div className="card">
-			{/* {setupColorIcons()} */}
-			<img src={movie.poster_path ? "https://image.tmdb.org/t/p/w500/" + movie.poster_path : "./img/poster.jpg"} alt="movie-poster" />
-			<h2>{movie.title}</h2>
-			{movie.release_date ? <h5>Release date : {formatDate(movie.release_date)}</h5> : <h5>date unavailable</h5>}
-			<h4>{movie.vote_average}/10 <span>⭐</span></h4>
-			{movie.genre_ids? <ul>{findGenre(movie.genre_ids, 1)}</ul> : movie.genres ? <ul>{findGenre(movie.genres, 0)}</ul> : ""}
-			{movie.overview ? <h3>Synopsis</h3> : ""}
-			<p>{movie.overview}</p>
-			{movie.genre_ids ? <div className="btn" 
-			onClick={() => {
-				handleStorageData(movie.id, 1);
-				setcolorIcons({color: 'red'})
-				}}><i style={colorIcons} className="fas fa-solid fa-heart"></i></div> : <div className="btn" onClick={() => handleStorageData(movie.id, 2)}><i className="fas fa-solid fa-trash"></i>	</div>}
-		</div>
-	);
+  return (
+    <div className="card">
+      <img
+        src={
+          movie.poster_path
+            ? "https://image.tmdb.org/t/p/w500/" + movie.poster_path
+            : "./img/poster.jpg"
+        }
+        alt="movie-poster"
+      />
+      <h2>{movie.title}</h2>
+      {movie.release_date ? (
+        <h5>Release date : {formatDate(movie.release_date)}</h5>
+      ) : (
+        <h5>date unavailable</h5>
+      )}
+      <h4>
+        {movie.vote_average}/10 <span>⭐</span>
+      </h4>
+      {movie.genre_ids ? (
+        <ul>{findGenre(movie.genre_ids, 1)}</ul>
+      ) : movie.genres ? (
+        <ul>{findGenre(movie.genres, 0)}</ul>
+      ) : (
+        ""
+      )}
+      {movie.overview ? <h3>Synopsis</h3> : ""}
+      <p>{movie.overview}</p>
+      {movie.genre_ids ? (
+        <Checkbox
+          className="btn"
+          onClick={() => {
+            handleStorageData(movie.id, 1);
+            window.localStorage.setItem(movie.id, setLocalFav());
+            const movieTmp = [...movieContext];
+            setMovieContext(movieTmp);
+          }}
+          icon={<FavoriteBorder />}
+          checkedIcon={<Favorite />}
+          style={{ color: "red" }}
+          checked={setLocalFav()}
+        />
+      ) : (
+        <div className="btn" onClick={() => handleStorageData(movie.id, 2)}>
+          <i className="fas fa-solid fa-trash"></i>
+        </div>
+      )}
+    </div>
+  );
 };
 
- 
 export default Card;
