@@ -1,9 +1,11 @@
 
 Stack : 
 - React-js
-- Sass (CSS)
+- API : The Movie DB
+- Axios
 - Redux-toolkit + Redux-persist
 - React Navigation
+- Sass (SCSS)
 - Mui
 
 
