@@ -5,7 +5,7 @@ Stack :
 - Axios
 - Redux-toolkit + Redux-persist
 - React Navigation
-- Sass (CSS)
+- Sass (SCSS)
 - Mui
 
 
