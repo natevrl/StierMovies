@@ -10,10 +10,11 @@
 $font-1: "font-1", sans-serif;
 $font-2: "font-2", sans-serif;
 
-$color-1: #546fe4;
-$color-2: #212040;
+$color-1: #FB2576;
+$color-2: #150050;
 $color-3: rgb(100, 100, 100);
-$black: #060d2c;
+$color-4: #dfda41;
+$black: rgb(12, 12, 12);
 $white: rgb(238, 238, 238);
 
 
@@ -25,7 +26,7 @@ $white: rgb(238, 238, 238);
 }
 
 body {
-  background: $color-2;
+  background: $black;
   color: $white;
 }
 li {

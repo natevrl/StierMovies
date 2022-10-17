@@ -10,7 +10,7 @@ const Header = () => {
 					<NavLink to ="/coup-de-coeur" className={(nav) => (nav.isActive ? "nav-active" : "")}><li>Coup de coeur</li></NavLink>
 				</ul>
 			</nav>
-			<h1>Movies Handler</h1>
+			<h1>M Y S-T I E R</h1>
 		</div>
 	);
 };

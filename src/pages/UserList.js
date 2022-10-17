@@ -2,27 +2,25 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Card from "../components/Card";
+import { useDispatch, useSelector } from "react-redux";
+
 
 const UserList = () => {
   const [listData, setlistData] = useState([]);
-  const [count, setCount] = useState(0);
+  const favList = useSelector((state) => state.favList);
+  
   useEffect(() => {
-    const moviesList = window.localStorage.movie
-      ? window.localStorage.movie.split(",")
-      : [];
-    for (let i = 0; i < moviesList.length; i++) {
+    setlistData([]);
+    for (let i = 0; i < favList.length; i++) {
       axios
         .get(
-          `https://api.themoviedb.org/3/movie/${moviesList[i]}external_ids?api_key=f2325b7f071669430ffa93fbe85df4ad`
+          `https://api.themoviedb.org/3/movie/${favList[i]}external_ids?api_key=f2325b7f071669430ffa93fbe85df4ad`
         )
         .then((res) => setlistData((listData) => [...listData, res.data]));
     }
-  }, []);
+  }, [favList]);
 
-  function changeStateTest(data) {
-    setlistData(data);
-  }
-
+console.log(listData);
   return (
     <div className="user-list-page">
       <Header />
@@ -34,8 +32,6 @@ const UserList = () => {
           <Card
             key={movie.id}
             movie={movie}
-            funcOfParent={changeStateTest}
-            parentListData={listData}
           />
         ))}
       </div>

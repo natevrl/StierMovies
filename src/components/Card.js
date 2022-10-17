@@ -2,10 +2,16 @@ import React, { useState, useContext } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
-import { testContext } from "./Form";
+import { addToFavList, deleteToFavList } from "../redux";
+import { useDispatch, useSelector } from "react-redux";
 
-const Card = ({ movie, funcOfParent, parentListData }) => {
-  const [movieContext, setMovieContext] = useContext(testContext);
+
+const Card = ({ movie }) => {
+
+
+
+  const dispatch = useDispatch();
+  const favList = useSelector((state) => state.favList);
 
   function formatDate(date) {
     const [yy, mm, dd] = date.split("-");
@@ -45,31 +51,15 @@ const Card = ({ movie, funcOfParent, parentListData }) => {
     return new_list.map((genre, i) => <li key={i}>{genre}</li>);
   }
 
-  function handleStorageData(id, token) {
-    let data_list = window.localStorage.movie
-      ? window.localStorage.movie.split(",")
-      : [];
+  function isInFavList(id) {
+    for (let i = 0; i < favList.length; i++)
+      if (favList[i] === id)
+        return true;
+    return false;
+  };
 
-    if (!data_list.includes(id.toString()) && token === 1) {
-      // add data to localStorage
-      data_list.push(id);
-      window.localStorage.movie = data_list;
-    } else if (token === 2) {
-      // delete data of localStorage
-      let newDataList = data_list.filter((eachId) => eachId != id);
-      window.localStorage.movie = newDataList;
-      const newArr = parentListData.filter((item) =>
-        newDataList.includes(item.id.toString())
-      );
-      funcOfParent(newArr);
-    }
-  }
 
-  function setLocalFav() {
-    if (window.localStorage.getItem(movie.id) === "false") return true;
-    else return false;
-  }
-
+  console.log(favList);
   return (
     <div className="card">
       <img
@@ -99,24 +89,20 @@ const Card = ({ movie, funcOfParent, parentListData }) => {
       {movie.overview ? <h3>Synopsis</h3> : ""}
       <p>{movie.overview}</p>
       {movie.genre_ids ? (
-        <Checkbox
+       <Checkbox
           className="btn"
-          onClick={() => {
-            handleStorageData(movie.id, 1);
-            window.localStorage.setItem(movie.id, setLocalFav());
-            const movieTmp = [...movieContext];
-            setMovieContext(movieTmp);
-          }}
+          onClick={() => {favList.includes(movie.id) ? dispatch(deleteToFavList(movie.id)) : dispatch(addToFavList(movie.id))}} // favList.includes(movie.id) ? dispatch(addToFavList(movie.id)) : dispatch(deleteToFavList(movie.id))}
           icon={<FavoriteBorder />}
           checkedIcon={<Favorite />}
-          style={{ color: "red" }}
-          checked={setLocalFav()}
+          style={{ color: "#FB2576" }}
+          checked={isInFavList(movie.id)}
+          
         />
-      ) : (
-        <div className="btn" onClick={() => handleStorageData(movie.id, 2)}>
-          <i className="fas fa-solid fa-trash"></i>
-        </div>
-      )}
+       ) : (
+         <div className="btn" onClick={() => dispatch(deleteToFavList(movie.id))}>
+           <i className="fas fa-solid fa-trash"></i>
+         </div>
+       )}
     </div>
   );
 };

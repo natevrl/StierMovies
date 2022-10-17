@@ -1,13 +1,13 @@
 import axios from "axios";
-import React, { useEffect, useState, createContext } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "./Card.js";
 
-export const testContext = createContext();
 
 const Form = () => {
   const [moviesData, setMoviesData] = useState([]);
   const [search, setSearch] = useState("toy story");
   const [sortNote, setSortNote] = useState(null);
+
 
   // a chaque fois que [search] change, axios fait une nouvelle requete avec le nouveau lien
   useEffect(() => {
@@ -20,11 +20,8 @@ const Form = () => {
       });
   }, [search]);
 
-  // moviesData.map((movie) => console.log(movie.isfav))
-  // console.log(moviesData.map((mov) => mov.isfav));
 
   return (
-    <testContext.Provider value={[moviesData, setMoviesData]}>
       <div className="form-component">
         <div className="form-container">
           <form>
@@ -55,7 +52,6 @@ const Form = () => {
         </div>
         <div className="result">
           {moviesData
-            .slice(0, 12)
             .sort((a, b) => {
               if (sortNote === "goodToBad")
                 return b.vote_average - a.vote_average;
@@ -67,7 +63,6 @@ const Form = () => {
             ))}
         </div>
       </div>
-    </testContext.Provider>
   );
 };
 

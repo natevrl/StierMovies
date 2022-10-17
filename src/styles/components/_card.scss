@@ -3,8 +3,9 @@
   min-width: 260px;
   max-width: 280px;
   height: 620px;
-  background: #060d2c;
+  background: $color-2;
   border-radius: 35px;
+  // box-shadow: 2px 2px 0px 1px rgb(85, 85, 85);
   margin: 5px;
   padding: 26px 15px 30px;
   position: relative;
@@ -15,11 +16,16 @@
     position: absolute;
     height: 90px;
     width: 100%;
-    background: linear-gradient(180deg, rgba(195, 34, 34, 0) 0%, $black 55%);
+    background: linear-gradient(180deg, rgba(195, 34, 34, 0) 0%, $color-2 55%);
     left: 50%;
     transform: translateX(-50%);
     bottom: 0;
     border-radius: 0 0 30px 30px;
+  }
+
+  &:hover {
+    background-color: $color-4;
+    transform: translateY(-7px);
   }
 
   img {
