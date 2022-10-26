@@ -6,7 +6,7 @@ Stack :
 - API : The Movie DB
 - Axios
 - Redux-toolkit + Redux-persist
-- React Navigation
+- React router
 - Sass (SCSS)
 - Mui
 
