@@ -1,10 +1,12 @@
 
+<img src="https://img.icons8.com/emoji/48/000000/clapper-board-emoji.png"/>
+
 Stack : 
 - React-js
 - API : The Movie DB
 - Axios
 - Redux-toolkit + Redux-persist
-- React Navigation
+- React router
 - Sass (SCSS)
 - Mui
 
