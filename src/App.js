@@ -2,15 +2,17 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import UserList from "./pages/UserList";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { Provider } from "react-redux";
 import { myStore } from "./redux";
-import { PersistGate } from "redux-persist/integration/react"
-import { persistStore } from "redux-persist"
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
 
 
 const App = () => {
   let persistor = persistStore(myStore);
+
   return (
     <Provider store={myStore}>
       <PersistGate persistor={persistor}>
@@ -18,6 +20,8 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/coup-de-coeur" element={<UserList />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/notfound" element={<NotFound />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </BrowserRouter>
