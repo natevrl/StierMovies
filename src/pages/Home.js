@@ -2,7 +2,7 @@ import React from 'react';
 import Form from '../components/Form';
 import Header from '../components/Header';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../FIrebase';
+import { auth } from '../Firebase';
 
 const Home = () => {
 

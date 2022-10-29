@@ -8,6 +8,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import {db} from "./Firebase";
+import { collection, getDocs } from 'firebase/firestore';
 
 
 const App = () => {

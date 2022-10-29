@@ -5,10 +5,7 @@ import Favorite from "@mui/icons-material/Favorite";
 import { addToFavList, deleteToFavList } from "../redux";
 import { useDispatch, useSelector } from "react-redux";
 
-
 const Card = ({ movie }) => {
-
-
 
   const dispatch = useDispatch();
   const favList = useSelector((state) => state.favList);
@@ -57,9 +54,6 @@ const Card = ({ movie }) => {
         return true;
     return false;
   };
-
-
-  console.log(favList);
   return (
     <div className="card">
       <img
@@ -89,20 +83,20 @@ const Card = ({ movie }) => {
       {movie.overview ? <h3>Synopsis</h3> : ""}
       <p>{movie.overview}</p>
       {movie.genre_ids ? (
-       <Checkbox
+        <Checkbox
           className="btn"
-          onClick={() => {favList.includes(movie.id) ? dispatch(deleteToFavList(movie.id)) : dispatch(addToFavList(movie.id))}} // favList.includes(movie.id) ? dispatch(addToFavList(movie.id)) : dispatch(deleteToFavList(movie.id))}
+          onClick={() => { favList.includes(movie.id) ? dispatch(deleteToFavList(movie.id)) : dispatch(addToFavList(movie.id)) }} // favList.includes(movie.id) ? dispatch(addToFavList(movie.id)) : dispatch(deleteToFavList(movie.id))}
           icon={<FavoriteBorder />}
           checkedIcon={<Favorite />}
           style={{ color: "#FB2576" }}
           checked={isInFavList(movie.id)}
-          
+
         />
-       ) : (
-         <div className="btn" onClick={() => dispatch(deleteToFavList(movie.id))}>
-           <i className="fas fa-solid fa-trash"></i>
-         </div>
-       )}
+      ) : (
+        <div className="btn" onClick={() => dispatch(deleteToFavList(movie.id))}>
+          <i className="fas fa-solid fa-trash"></i>
+        </div>
+      )}
     </div>
   );
 };
