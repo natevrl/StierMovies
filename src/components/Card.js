@@ -1,18 +1,38 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import { addToFavList, deleteToFavList } from "../redux";
 import { useDispatch, useSelector } from "react-redux";
+import { db } from "../Firebase";
+import { collection, getDocs, addDoc, deleteDoc, deleteField} from 'firebase/firestore';
 
 const Card = ({ movie }) => {
 
   const dispatch = useDispatch();
   const favList = useSelector((state) => state.favList);
+  const fsCollection = collection(db, "fav-users");
+
+  // useEffect(() => {
+  //   // deleteDoc(fsCollection);
+  //   addFavToFireStore();
+  // }, [favList]);
 
   function formatDate(date) {
     const [yy, mm, dd] = date.split("-");
     return [dd, mm, yy].join("/");
+  }
+
+
+
+  // function isInFireStore(id) {
+  //   getDocs(fsCollection)
+  //   .then(data => data.docs.map(doc => {if (doc.data().film_id === id) return console.log(doc.data().film_id, id), true;}))
+  //   return false;
+  // };
+
+  function addFavToFireStore() {
+    favList.map(id => {addDoc(fsCollection, {film_id: id})})
   }
 
   function findGenre(genres, token) {
@@ -85,7 +105,7 @@ const Card = ({ movie }) => {
       {movie.genre_ids ? (
         <Checkbox
           className="btn"
-          onClick={() => { favList.includes(movie.id) ? dispatch(deleteToFavList(movie.id)) : dispatch(addToFavList(movie.id)) }} // favList.includes(movie.id) ? dispatch(addToFavList(movie.id)) : dispatch(deleteToFavList(movie.id))}
+          onClick={() => {favList.includes(movie.id) ? dispatch(deleteToFavList(movie.id)) : dispatch(addToFavList(movie.id))}}
           icon={<FavoriteBorder />}
           checkedIcon={<Favorite />}
           style={{ color: "#FB2576" }}

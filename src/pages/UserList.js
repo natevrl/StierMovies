@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import Card from "../components/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { db } from "../Firebase";
-import { collection, getDocs } from 'firebase/firestore';
+import { addDoc, collection, getDocs, deleteField, doc, deleteDoc } from 'firebase/firestore';
 
 
 const UserList = () => {
@@ -13,23 +13,14 @@ const UserList = () => {
   const favList = useSelector((state) => state.favList);
 
   const fsCollection = collection(db, "fav-users");
-  // const data = getDocs(fsCollection).then(res => console.log(res)).catch(err => console.log(err));
-  // console.log(`data = ${data}`);
   
   useEffect(() => {
         getDocs(fsCollection)
-        // .then(data => console.log(data.docs[0].data().film_id))
         .then(data => setUsers(data.docs.map(doc => [doc.data().film_id])))
-        // .catch(err => alert(err));
-  //   const getUsers = async () => {
-  //     const data = await getDocs(fsCollection);
-  //     setUsers(data.docs.map(doc => ({...doc.data(), id: doc.id})))
-  //   };
-  //   getUsers();
   }, []);
 
+  deleteDoc(doc(fsCollection, "test"));
 
-  // console.log(users)
 
   useEffect(() => {
     setlistData([]);
