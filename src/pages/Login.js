@@ -16,15 +16,17 @@ function Login() {
     signInWithEmailAndPassword(auth, email, pwd)
     .then(auth => {
       navigate('/');
-      const test = collection(db, 'users');
-      setDoc(doc(test, auth.user.uid), {test: "mdr"});
+      return setDoc(doc(collection(db, 'users'), auth.user.uid), {init: "true"});
     })
     .catch(err => {console.error(err); navigate('/notfound')})
   };
 
   const registerNewUser = () => {
     createUserWithEmailAndPassword(auth, email, pwd)
-    .then(auth => {navigate('/')})
+    .then(auth => {
+      navigate('/');
+      return setDoc(doc(collection(db, 'users'), auth.user.uid), {init: "true"});
+    })
     .catch(err => navigate('/notfound'))
   };
 
