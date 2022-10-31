@@ -25,31 +25,20 @@ const Card = ({ movie }) => {
   }
 
   
-  const addOrDeleteToFireStore = async (id) => {
-    let isAlreadyInFav = false;
-    let docId = "";
-    await getDocs(fsCollection)
-      .then(data => data.docs.map(doc => { 
-        if (doc.data().film_id === id) {
-          docId = doc.id; 
-          isAlreadyInFav = !isAlreadyInFav; 
-          return ;
-        }}))
-     return [isAlreadyInFav, docId];
-  };
+
 
 //   if (!isAlreadyInFav) 
   // addDoc(fsCollection, { film_title: title, film_id: id }); 
 // else
   // deleteDoc(doc(fsCollection, docId));
 
-  const isInFireStore = (id) => {
-    let isAlreadyInFav = false;
-    getDocs(fsCollection)
-      .then(data => data.docs.map(doc => { if (doc.data().film_id === id) isAlreadyInFav = true; return;}))
-      return isAlreadyInFav;
+  // const isInFireStore = (id) => {
+  //   let isAlreadyInFav = false;
+  //   getDocs(fsCollection)
+  //     .then(data => data.docs.map(doc => { if (doc.data().film_id === id) isAlreadyInFav = true; return;}))
+  //     return isAlreadyInFav;
 
-  };
+  // };
 
   function findGenre(genres, token) {
     const new_list = [];
@@ -90,6 +79,20 @@ const Card = ({ movie }) => {
         return true;
     return false;
   };
+
+  let isAlreadyInFav = false;
+
+  const addOrDeleteToFireStore = async (id) => {
+    let docId = "";
+    await getDocs(fsCollection)
+      .then(data => data.docs.map(doc => { 
+        if (doc.data().film_id === id) {
+          docId = doc.id; 
+          isAlreadyInFav = !isAlreadyInFav; 
+        }}))
+     return [isAlreadyInFav, docId];
+  };
+
   return (
     <div className="card">
       <img
@@ -122,12 +125,11 @@ const Card = ({ movie }) => {
         <Checkbox
           className="btn"
           onClick={() => addOrDeleteToFireStore(movie.id)
-            .then(res => console.log(res[1]))} // favList.includes(movie.id) ? dispatch(deleteToFavList(movie.id)) : dispatch(addToFavList(movie.id))
+            .then(res => res[1] === '' ? addDoc(fsCollection, { film_title: movie.title, film_id: movie.id }) : deleteDoc(doc(fsCollection, res[1])))} // favList.includes(movie.id) ? dispatch(deleteToFavList(movie.id)) : dispatch(addToFavList(movie.id))
           icon={<FavoriteBorder />}
           checkedIcon={<Favorite />}
           style={{ color: "#FB2576" }}
-          // checked={addOrDeleteToFireStore(movie.title, movie.id)}
-
+          checked={isAlreadyInFav}
         />
       ) : (
         <div className="btn" onClick={() => addOrDeleteToFireStore(movie.id)}>

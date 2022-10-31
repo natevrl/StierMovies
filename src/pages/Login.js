@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import {signInWithEmailAndPassword, createUserWithEmailAndPassword} from 'firebase/auth';
-import {auth} from "../Firebase";
+import {auth, db} from "../Firebase";
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
+
 
 function Login() {
 
@@ -12,8 +14,12 @@ function Login() {
 
   const signIn = () => {
     signInWithEmailAndPassword(auth, email, pwd)
-    .then(auth => {navigate('/')})
-    .catch(err => navigate('/notfound'))
+    .then(auth => {
+      navigate('/');
+      const test = collection(db, 'users');
+      setDoc(doc(test, auth.user.uid), {test: "mdr"});
+    })
+    .catch(err => {console.error(err); navigate('/notfound')})
   };
 
   const registerNewUser = () => {
