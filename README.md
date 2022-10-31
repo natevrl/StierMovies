@@ -4,6 +4,7 @@
 Stack : 
 - React-js
 - API : The Movie DB
+- Firebase (Auth & Firestore)
 - Axios
 - Redux-toolkit + Redux-persist
 - React router
