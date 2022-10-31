@@ -5,7 +5,8 @@ import Favorite from "@mui/icons-material/Favorite";
 import { addToFavList, deleteToFavList } from "../redux";
 import { useDispatch, useSelector } from "react-redux";
 import { db } from "../Firebase";
-import { collection, getDocs, addDoc, deleteDoc, deleteField} from 'firebase/firestore';
+import { collection, getDocs, addDoc, deleteDoc, doc, getDoc } from 'firebase/firestore';
+import { async } from "@firebase/util";
 
 const Card = ({ movie }) => {
 
@@ -14,7 +15,7 @@ const Card = ({ movie }) => {
   const fsCollection = collection(db, "fav-users");
 
   // useEffect(() => {
-  //   // deleteDoc(fsCollection);
+    // deleteDoc(fsCollection);
   //   addFavToFireStore();
   // }, [favList]);
 
@@ -23,17 +24,32 @@ const Card = ({ movie }) => {
     return [dd, mm, yy].join("/");
   }
 
+  
+  const addOrDeleteToFireStore = async (id) => {
+    let isAlreadyInFav = false;
+    let docId = "";
+    await getDocs(fsCollection)
+      .then(data => data.docs.map(doc => { 
+        if (doc.data().film_id === id) {
+          docId = doc.id; 
+          isAlreadyInFav = !isAlreadyInFav; 
+          return ;
+        }}))
+     return [isAlreadyInFav, docId];
+  };
 
+//   if (!isAlreadyInFav) 
+  // addDoc(fsCollection, { film_title: title, film_id: id }); 
+// else
+  // deleteDoc(doc(fsCollection, docId));
 
-  // function isInFireStore(id) {
-  //   getDocs(fsCollection)
-  //   .then(data => data.docs.map(doc => {if (doc.data().film_id === id) return console.log(doc.data().film_id, id), true;}))
-  //   return false;
-  // };
+  const isInFireStore = (id) => {
+    let isAlreadyInFav = false;
+    getDocs(fsCollection)
+      .then(data => data.docs.map(doc => { if (doc.data().film_id === id) isAlreadyInFav = true; return;}))
+      return isAlreadyInFav;
 
-  function addFavToFireStore() {
-    favList.map(id => {addDoc(fsCollection, {film_id: id})})
-  }
+  };
 
   function findGenre(genres, token) {
     const new_list = [];
@@ -105,15 +121,16 @@ const Card = ({ movie }) => {
       {movie.genre_ids ? (
         <Checkbox
           className="btn"
-          onClick={() => {favList.includes(movie.id) ? dispatch(deleteToFavList(movie.id)) : dispatch(addToFavList(movie.id))}}
+          onClick={() => addOrDeleteToFireStore(movie.id)
+            .then(res => console.log(res[1]))} // favList.includes(movie.id) ? dispatch(deleteToFavList(movie.id)) : dispatch(addToFavList(movie.id))
           icon={<FavoriteBorder />}
           checkedIcon={<Favorite />}
           style={{ color: "#FB2576" }}
-          checked={isInFavList(movie.id)}
+          // checked={addOrDeleteToFireStore(movie.title, movie.id)}
 
         />
       ) : (
-        <div className="btn" onClick={() => dispatch(deleteToFavList(movie.id))}>
+        <div className="btn" onClick={() => addOrDeleteToFireStore(movie.id)}>
           <i className="fas fa-solid fa-trash"></i>
         </div>
       )}

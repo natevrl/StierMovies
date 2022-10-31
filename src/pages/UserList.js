@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import Card from "../components/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { db } from "../Firebase";
-import { addDoc, collection, getDocs, deleteField, doc, deleteDoc } from 'firebase/firestore';
+import { addDoc, collection, getDocs, doc, deleteDoc } from 'firebase/firestore';
 
 
 const UserList = () => {
@@ -19,7 +19,7 @@ const UserList = () => {
         .then(data => setUsers(data.docs.map(doc => [doc.data().film_id])))
   }, []);
 
-  deleteDoc(doc(fsCollection, "test"));
+  // deleteDoc(doc(fsCollection, "test"));
 
 
   useEffect(() => {
