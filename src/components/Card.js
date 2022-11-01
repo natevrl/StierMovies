@@ -5,10 +5,9 @@ import Favorite from "@mui/icons-material/Favorite";
 import { addToFavList, deleteToFavList } from "../redux";
 import { useDispatch, useSelector } from "react-redux";
 import { auth, db } from "../Firebase";
-import { collection, getDocs, addDoc, deleteDoc, doc, setDoc, arrayUnion, updateDoc, FieldValue, arrayRemove, getDoc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, deleteDoc, doc, setDoc, arrayUnion, updateDoc, arrayRemove, getDoc } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
-import { async } from "@firebase/util";
 
 const Card = ({ movie }) => {
 
@@ -16,16 +15,11 @@ const Card = ({ movie }) => {
 	const [user, loading, error]= useAuthState(auth);
   const favList = useSelector((state) => state.favList);
   const fsCollection = collection(db, "users");
-  // const docReference = doc(fsCollection, user.uid);
-
-
-  // console.log(auth.currentUser())
-
 
   function formatDate(date) {
     const [yy, mm, dd] = date.split("-");
     return [dd, mm, yy].join("/");
-  }
+  };
 
   function findGenre(genres, token) {
     const new_list = [];
@@ -53,27 +47,24 @@ const Card = ({ movie }) => {
     if (token === 1) {
       for (let i = 0; i < genres.length; i++)
         for (let key in genreDict)
-          if (genres[i].toString() === key) new_list.push(genreDict[key]);
+          if (genres[i].toString() === key) 
+            new_list.push(genreDict[key]);
     } else {
-      for (let i = 0; i < genres.length; i++) new_list.push(genres[i].name);
+        for (let i = 0; i < genres.length; i++) 
+          new_list.push(genres[i].name);
     }
     return new_list.map((genre, i) => <li key={i}>{genre}</li>);
   }
 
-  function isInFavList(id) {
-    for (let i = 0; i < favList.length; i++)
-      if (favList[i] === id)
-        return true;
-    return false;
-  };
-
-  let isAlreadyInFav = false;
-
-  const isInFireStore = async (id) => {
+  async function isInFireStore(id) {
     let isIn = false;
     const docData = await getDoc(doc(fsCollection, user.uid));
     docData.data().film_id.map(film => {if (film === id) isIn = true;});
     return isIn;
+  };
+
+  function addOrRemoveField(bool) {
+    return updateDoc(doc(fsCollection, user.uid), bool ? {film_id: arrayRemove(movie.id)} : {film_id: arrayUnion(movie.id)}) 
   };
 
   return (
@@ -107,11 +98,11 @@ const Card = ({ movie }) => {
       {movie.genre_ids ? (
         <Checkbox 
           className="btn"
-          onClick={() => isInFireStore(movie.id).then(retour => retour === true ? updateDoc(doc(fsCollection, user.uid), {film_id: arrayRemove(movie.id)}) : updateDoc(doc(fsCollection, user.uid), {film_id: arrayUnion(movie.id)}))} // .then(res => res === true ?  updateDoc(docReference, {film_id: arrayUnion(movie.id)}) : updateDoc(docReference, {film_id: arrayRemove(movie.id)}))} // favList.includes(movie.id) ? dispatch(deleteToFavList(movie.id)) : dispatch(addToFavList(movie.id))
-            icon={<FavoriteBorder />}
+          onClick={() => isInFireStore(movie.id).then(retour => retour === true ? addOrRemoveField(true) : addOrRemoveField(false))}
+          icon={<FavoriteBorder />}
           checkedIcon={<Favorite />}
           style={{ color: "#FB2576" }}
-          checked={isAlreadyInFav}
+          // checked={isAlreadyInFav}
         />
       ) : (
         <div className="btn" onClick={() => {}}>

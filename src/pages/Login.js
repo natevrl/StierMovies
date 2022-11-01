@@ -16,7 +16,7 @@ function Login() {
     signInWithEmailAndPassword(auth, email, pwd)
     .then(auth => {
       navigate('/');
-      return setDoc(doc(collection(db, 'users'), auth.user.uid), {init: "true"});
+      return setDoc(doc(collection(db, 'users'), auth.user.uid), {film_id: []});
     })
     .catch(err => {console.error(err); navigate('/notfound')})
   };
@@ -25,7 +25,7 @@ function Login() {
     createUserWithEmailAndPassword(auth, email, pwd)
     .then(auth => {
       navigate('/');
-      return setDoc(doc(collection(db, 'users'), auth.user.uid), {init: "true"});
+      return setDoc(doc(collection(db, 'users'), auth.user.uid), {film_id: []});
     })
     .catch(err => navigate('/notfound'))
   };
