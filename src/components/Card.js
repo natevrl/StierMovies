@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
-import { addToFavList, deleteToFavList } from "../redux";
+import { addToFavList, deleteToFavList, toggleReverse } from "../redux";
 import { useDispatch, useSelector } from "react-redux";
 import { auth, db } from "../Firebase";
 import { collection, getDocs, addDoc, deleteDoc, doc, setDoc, arrayUnion, updateDoc, arrayRemove, getDoc } from 'firebase/firestore';
@@ -13,7 +13,6 @@ const Card = ({ movie }) => {
 
   const dispatch = useDispatch();
 	const [user, loading, error]= useAuthState(auth);
-  const favList = useSelector((state) => state.favList);
   const fsCollection = collection(db, "users");
 
   function formatDate(date) {
@@ -105,7 +104,7 @@ const Card = ({ movie }) => {
           // checked={isAlreadyInFav}
         />
       ) : (
-        <div className="btn" onClick={() => {addOrRemoveField(true)}}>
+        <div className="btn" onClick={() => {addOrRemoveField(true); dispatch(toggleReverse())}}>
           <i className="fas fa-solid fa-trash"></i>
         </div>
       )}

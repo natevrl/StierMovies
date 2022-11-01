@@ -27,8 +27,20 @@ const favListSlice = createSlice({
     }
 })
 
+const isTriggeredSlice = createSlice({
+    name: "isTriggered",
+    initialState: false,
+
+    reducers: {
+        toggleReverse: (state, action) => {
+            return state = !state;
+        }
+    }
+})
+
 const reducer = combineReducers({
     favList: favListSlice.reducer,
+    isTriggered: isTriggeredSlice.reducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, reducer);
@@ -45,3 +57,4 @@ export const myStore = configureStore({
 })
 
 export const { addToFavList, toggleFavBool, deleteToFavList } = favListSlice.actions;
+export const { toggleReverse } = isTriggeredSlice.actions;
