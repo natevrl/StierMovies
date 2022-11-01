@@ -6,34 +6,32 @@ import {auth, db} from "../Firebase";
 import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 
 
-function Login() {
+function Register() {
 
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
 
-  const signIn = () => {
-    signInWithEmailAndPassword(auth, email, pwd)
+  const registerNewUser = () => {
+    createUserWithEmailAndPassword(auth, email, pwd)
     .then(auth => {
-      navigate('/');
+      navigate('/home');
       return setDoc(doc(collection(db, 'users'), auth.user.uid), {film_id: []});
     })
-    .catch(err => {console.error(err); navigate('/notfound')})
+    .catch(err => navigate('/notfound'))
   };
 
   return (
     <>
-      <div className="login-contenair">
-        <p>Connectez-vous</p>
+      <div className="register-contenair">
+        <p>Inscrivez-vous</p>
         <input onChange={(e) => setEmail(e.target.value)} type="text" className='mail-input' name='mail' placeholder='email'/>
         <input onChange={(e) => setPwd(e.target.value)} type="password" className='pwd-input' name='pwd' placeholder='password'/>
-        <button onClick={signIn} className='login-button' >Se connecter</button>
-        <p>Pas encore de compte ?</p>
-        <button onClick={() => navigate('/register')} className='register-button' >Créer un compte</button>
+        <button onClick={registerNewUser} className='register-button' >S'inscrire</button>
 
       </div>
     </>
   )
 }
 
-export default Login
+export default Register

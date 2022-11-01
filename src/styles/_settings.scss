@@ -10,13 +10,12 @@
 $font-1: "font-1", sans-serif;
 $font-2: "font-2", sans-serif;
 
-$color-1: #FB2576;
+$color-1: #fb2576;
 $color-2: #150050;
 $color-3: rgb(100, 100, 100);
 $color-4: #dfda41;
 $black: rgb(12, 12, 12);
 $white: rgb(238, 238, 238);
-
 
 * {
   margin: 0;
@@ -29,9 +28,11 @@ body {
   background: $black;
   color: $white;
 }
+
 li {
   list-style: none;
 }
+
 .result {
   display: flex;
   flex-wrap: wrap;

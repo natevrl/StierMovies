@@ -45,12 +45,9 @@ const UserList = () => {
 
   return (
     <div className="user-list-page">
-      <Header />
       <h2>
         <span>❤️</span> My Favlist
       </h2>
-      <div>faaaav {user?.uid}</div>
-      
       <div className="result">
         {listData.map((movie) => (
           <Card

@@ -1,10 +1,15 @@
 .header {
-  @media only screen and (max-width: 440px) {
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-    margin-bottom: 20px;
-  }
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  margin: 5px 20px 0 20px;
+  // @media only screen and (max-width: 440px) {
+  //   display: flex;
+  //   flex-direction: column-reverse;
+  //   align-items: center;
+  //   margin-bottom: 20px;
+  // }
 
   h1 {
     font-size: 3.3rem;
@@ -12,18 +17,16 @@
     text-align: center;
     letter-spacing: 2px;
     @media only screen and (max-width: 720px) {
-        text-align: right;
-        font-size: 32px;
-        margin: 10px 16px 20px;
+      text-align: right;
+      font-size: 32px;
+      margin: 10px 16px 20px;
     }
   }
   nav {
-    position: absolute;
     top: 16px;
     left: 16px;
     font-size: 1.3rem;
     @media only screen and (max-width: 440px) {
-      position: inherit;
     }
 
     ul {
