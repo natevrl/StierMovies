@@ -105,7 +105,7 @@ const Card = ({ movie }) => {
           // checked={isAlreadyInFav}
         />
       ) : (
-        <div className="btn" onClick={() => {}}>
+        <div className="btn" onClick={() => {addOrRemoveField(true)}}>
           <i className="fas fa-solid fa-trash"></i>
         </div>
       )}

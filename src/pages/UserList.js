@@ -19,19 +19,23 @@ const UserList = () => {
   const fsCollection = collection(db, "users");
 
 
-  async function getFireStoreFavList(uid) {
-     const docData = await getDoc(doc(fsCollection, uid))
-     return docData.data().film_id;
-  }
+  // async function getFireStoreFavList(uid) {
+  //    const docData = await getDoc(doc(fsCollection, uid))
+  //    return docData.data().film_id;
+  // }
 
   useEffect(() => {
     auth.onAuthStateChanged(authObj => {
       if (authObj) {
-        console.log(authObj.uid);
-        getFireStoreFavList(authObj.uid).then(idList => setFirestoreFavList(idList))
-      } 
+        const getFireStoreFavList = async () => {
+          const docData = await getDoc(doc(fsCollection, authObj.uid))
+          setFirestoreFavList(docData.data().film_id)
+
+        }
+        getFireStoreFavList().catch(err => console.log(err));
+      }
     })
-  }, []);
+  }, [getFireStoreFavList]);
 
 
   useEffect(() => {
@@ -44,7 +48,7 @@ const UserList = () => {
         .then((res) => setlistData((listData) => [...listData, res.data]));
     })
   }, [firestoreFavList]);
-  
+
   return (
     <div className="user-list-page">
       <Header />
