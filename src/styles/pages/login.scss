@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  margin: auto;
+  margin: 80px auto;
   background: rgb(22, 22, 22);
   border-radius: 5px;
   box-shadow: 5px 5px 2px 5px #000;
@@ -22,7 +22,8 @@
   }
 
   input {
-    width: 50%;
+    width: 80%;
+    max-width: 300px;
     height: 30px;
   }
 

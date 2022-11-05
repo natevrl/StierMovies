@@ -10,8 +10,7 @@ const Home = () => {
 
 	return (
 		<>
-			<h1>Bienvenue {user?.uid}</h1>
-			<button onClick={() => auth.signOut()}>Se déconnecter</button>
+			<h1>Bienvenue {user?.email}</h1>
 			<Form />
 		</>
 	);

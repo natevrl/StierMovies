@@ -4,12 +4,12 @@
   align-items: center;
   justify-content: space-between;
   margin: 5px 20px 0 20px;
-  // @media only screen and (max-width: 440px) {
-  //   display: flex;
-  //   flex-direction: column-reverse;
-  //   align-items: center;
-  //   margin-bottom: 20px;
-  // }
+  @media only screen and (max-width: 540px) {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    margin-bottom: 20px;
+  }
 
   h1 {
     font-size: 3.3rem;
@@ -19,26 +19,37 @@
     @media only screen and (max-width: 720px) {
       text-align: right;
       font-size: 32px;
-      margin: 10px 16px 20px;
     }
+  }
+  .connect {
+    border: 1px solid $color-4;
+    border-radius: 5px;
   }
   nav {
     top: 16px;
     left: 16px;
     font-size: 1.3rem;
-    @media only screen and (max-width: 440px) {
+    @media only screen and (max-width: 540px) {
+      font-size: 1rem;
     }
 
     ul {
       display: flex;
 
       a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         text-decoration: none;
         color: $white;
-        border-radius: 10px;
+        border-radius: 5px;
         width: 102px;
         text-align: center;
         margin-right: 5px;
+        @media only screen and (max-width: 540px) {
+          width: 61px;
+          height: 27px;
+        }
 
         &:visited {
           text-decoration: none;
